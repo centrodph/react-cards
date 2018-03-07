@@ -1,9 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import renderer from 'react-test-renderer';
+import { expect as chaiExpect } from 'chai';
+import { shallow } from 'enzyme';
+
 import App from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+test('Render App', () => {
+	const component = renderer.create(<App />);
+	let tree = component.toJSON();
+	expect(tree).toMatchSnapshot();
+});
+
+describe('Render app', () => {
+	it('renders three <Foo /> components', () => {
+		const component = renderer.create(<App />);
+		let tree = component.toJSON();
+		expect(tree).toMatchSnapshot();
+	});
+
+	it('renders an `.App-title`', () => {
+		const wrapper = shallow(<App />);
+		chaiExpect(wrapper.find('.App-title')).to.have.length(1);
+	});
 });
