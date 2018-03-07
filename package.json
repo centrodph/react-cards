@@ -2,11 +2,16 @@
   "name": "react-cards",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://centrodph.github.io/react-cards",
+  "homepage": "http://centrodph.github.io/react-cards",
   "dependencies": {
+    "axios": "^0.18.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-scripts": "1.1.1",
+    "react-thunk": "^1.0.0",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
