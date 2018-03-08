@@ -4,12 +4,17 @@ import GameConfig from '../pages/GameConfig';
 
 export default [
 	{
-		path: '/',
-		component: App
-	},
-	{
-		path: '/config',
-		component: GameConfig
+		component: App,
+		routes: [
+			{
+				path: '/config',
+				component: GameConfig
+			},
+			{
+				path: '/',
+				component: GameConfig
+			}
+		]
 	}
 	// {
 	// 	path: '/game',
