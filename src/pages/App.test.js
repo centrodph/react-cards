@@ -5,21 +5,18 @@ import { shallow } from 'enzyme';
 
 import App from './App';
 
-test('Render App', () => {
-	const component = renderer.create(<App />);
-	let tree = component.toJSON();
-	expect(tree).toMatchSnapshot();
-});
-
 describe('Render app', () => {
-	it('renders three <Foo /> components', () => {
+	it('check snapshot tree', () => {
 		const component = renderer.create(<App />);
 		let tree = component.toJSON();
 		expect(tree).toMatchSnapshot();
 	});
-
-	it('renders an `.App-title`', () => {
+	it('renders title', () => {
 		const wrapper = shallow(<App />);
-		chaiExpect(wrapper.find('.App-title')).to.have.length(1);
+		chaiExpect(wrapper.find('h1')).to.have.length(1);
+	});
+	it('check container className component', () => {
+		const wrapper = shallow(<App />);
+		chaiExpect(wrapper.find('.component-app')).to.have.length(1);
 	});
 });
