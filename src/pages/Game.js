@@ -82,6 +82,9 @@ class Game extends Component {
 		if (this.state.waiting === true) {
 			this.clean();
 		}
+		if (this.state.finded.length === this.state.cards.length) {
+			alert('GANASTE !!!!!');
+		}
 
 		return (
 			<div className="component-game">
