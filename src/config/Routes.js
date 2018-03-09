@@ -5,22 +5,24 @@ import Game from '../pages/Game';
 import GameConfig from '../pages/GameConfig';
 import Landing from '../pages/Landing';
 
+const base = process.env.REACT_APP_PUBLIC_URL;
+
 export default [
 	{
 		component: App,
 		routes: [
 			{
 				exact: true,
-				path: '/',
+				path: `${base}/`,
 				component: Landing
 			},
 			{
 				exact: true,
-				path: '/config',
+				path: `${base}/config`,
 				component: GameConfig
 			},
 			{
-				path: '/game',
+				path: `${base}/game`,
 				component: Game
 			}
 		]
