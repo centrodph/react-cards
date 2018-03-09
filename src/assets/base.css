@@ -2,11 +2,13 @@
 	display: flex;
 	margin: 10px;
 	border: blue solid 2px;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 
 .component-card {
-	width: 20%;
-	margin: 10px;
+	flex: 1 1 18%;
+	padding: 10px 1%;
 }
 
 .card-conteiner .front {
@@ -50,4 +52,19 @@
 }
 .card.flipped {
 	transform: rotateY(180deg);
+}
+.card.finded .back {
+	background: green;
+}
+
+.component-game-structure {
+	display: flex;
+	flex-direction: row;
+}
+
+.component-game-score {
+	flex: 1;
+}
+.component-game-box {
+	flex: 3;
 }
