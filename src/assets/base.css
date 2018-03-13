@@ -35,7 +35,8 @@
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
-  transition: transform 1s; }
+  transition: transform 1s;
+  background: none; }
 
 .card figure {
   margin: 0;
@@ -50,7 +51,7 @@
   font-size: 30px; }
 
 .card .front {
-  background: red; }
+  background: violet; }
 
 .card .back {
   background: blue;
