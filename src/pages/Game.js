@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getImagesByTag } from '../actions/';
+import { shuffleArray, getUrlImageFlickr } from '../util';
 import Card from '../components/Card';
-import axios from 'axios';
 
 class Game extends Component {
     constructor(props) {
         super(props);
 
-        const cards = this.shuffle([...this.props.cards, ...this.props.cards]); //duplicate
+        const cards = shuffleArray([...this.props.cards, ...this.props.cards]); //duplicate
 
         this.state = {
             images: [],
@@ -18,39 +20,9 @@ class Game extends Component {
         };
     }
 
-    componentDidMount = async () => {
-        const data = {
-            method: 'flickr.photos.search',
-            api_key: 'dc3e0ee29c9c2153cdd80f478d643fb8',
-            tags: 'dog,apple,carots',
-            per_page: 25,
-            format: 'json'
-        };
-        const query = Object.keys(data)
-            .map(function(key) {
-                return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
-            })
-            .join('&');
-
-        const result = await axios.get('https://api.flickr.com/services/rest/?' + query);
-        this.setState({ images: result.photo });
+    componentDidMount = () => {
+        this.props.getImagesByTag();
     };
-
-    shuffle(items) {
-        return items
-            .map((item) => {
-                return {
-                    weight: Math.random(),
-                    value: item
-                };
-            })
-            .sort((a, b) => {
-                return a.weight - b.weight;
-            })
-            .map((item) => {
-                return item.value;
-            });
-    }
 
     clean() {
         setTimeout(() => {
@@ -108,6 +80,7 @@ class Game extends Component {
     }
 
     render() {
+        console.log(this.props);
         if (this.state.waiting === true) {
             this.clean();
         }
@@ -116,20 +89,36 @@ class Game extends Component {
         }
 
         return (
-            <div className="component-game">
-                <div className="component-game-structure">
-                    <div className="component-game-box">{this.renderCards()}</div>
-                    <div className="component-game-score">
-                        <ul>
-                            <li>Selected: {this.renderDebug()}</li>
-                            <li>finded: {this.renderFinded()}</li>
-                            <li>QTY: {this.state.qtySelected}</li>
-                            <li>
-                                Waiting: {this.state.waiting && ` true`}
-                                {!this.state.waiting && ` false`}
-                            </li>
-                        </ul>
+            <div>
+                <div className="component-game">
+                    <div className="component-game-structure">
+                        <div className="component-game-box">{this.renderCards()}</div>
+                        <div className="component-game-score">
+                            <ul>
+                                <li>Selected: {this.renderDebug()}</li>
+                                <li>finded: {this.renderFinded()}</li>
+                                <li>QTY: {this.state.qtySelected}</li>
+                                <li>
+                                    Waiting: {this.state.waiting && ` true`}
+                                    {!this.state.waiting && ` false`}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
+                <div className="component-game-xxx" sytle={{ display: 'flex' }}>
+                    {this.props.images.map((img, key) => {
+                        return (
+                            <img
+                                key={key}
+                                src={getUrlImageFlickr(img)}
+                                sytle={{
+                                    width: '25%',
+                                    height: '333px'
+                                }}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         );
@@ -147,4 +136,10 @@ Game.defaultProps = {
     ]
 };
 
-export default Game;
+const mapStateToProps = (state) => {
+    const { images: { images } } = state;
+    return {
+        images
+    };
+};
+export default connect(mapStateToProps, { getImagesByTag })(Game);
