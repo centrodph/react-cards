@@ -59,6 +59,8 @@ class Game extends Component {
         return this.state.cards.map((card, index) => {
             const flipped = this.state.indexSelected.indexOf(index) > -1;
             const finded = this.state.finded.indexOf(index) > -1;
+
+            //configuration for change background every time
             let backgroundImage = 'none';
             if (this.props.images && this.props.images.length > 0) {
                 const inxImage = Math.floor(Math.random() * this.props.images.length);
