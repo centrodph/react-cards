@@ -9,8 +9,20 @@ class Card extends Component {
                 <div className="card-conteiner">
                     <div className={cardClass}>
                         <figure className="front">?</figure>
-                        <figure className="back" style={{ backgroundImage: `url("${backgroundImage}")` }}>
-                            {title}
+                        <figure
+                            className="back"
+                            style={{
+                                backgroundImage: `url("${backgroundImage}")`,
+                                backgroundSize: 'cover'
+                            }}
+                        >
+                            <span
+                                style={{
+                                    background: 'black'
+                                }}
+                            >
+                                {title}
+                            </span>
                         </figure>
                     </div>
                 </div>
