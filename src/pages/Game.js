@@ -59,11 +59,17 @@ class Game extends Component {
         return this.state.cards.map((card, index) => {
             const flipped = this.state.indexSelected.indexOf(index) > -1;
             const finded = this.state.finded.indexOf(index) > -1;
+            let backgroundImage = 'none';
+            if (this.props.images && this.props.images.length > 0) {
+                const inxImage = Math.floor(Math.random() * this.props.images.length);
+                backgroundImage = getUrlImageFlickr(this.props.images[inxImage]);
+            }
             return (
                 <Card
                     key={index}
                     flipped={flipped}
                     finded={finded}
+                    backgroundImage={backgroundImage}
                     {...card}
                     onClick={() => this.handleCardClick(index)}
                 />
@@ -89,36 +95,20 @@ class Game extends Component {
         }
 
         return (
-            <div>
-                <div className="component-game">
-                    <div className="component-game-structure">
-                        <div className="component-game-box">{this.renderCards()}</div>
-                        <div className="component-game-score">
-                            <ul>
-                                <li>Selected: {this.renderDebug()}</li>
-                                <li>finded: {this.renderFinded()}</li>
-                                <li>QTY: {this.state.qtySelected}</li>
-                                <li>
-                                    Waiting: {this.state.waiting && ` true`}
-                                    {!this.state.waiting && ` false`}
-                                </li>
-                            </ul>
-                        </div>
+            <div className="component-game">
+                <div className="component-game-structure">
+                    <div className="component-game-box">{this.renderCards()}</div>
+                    <div className="component-game-score">
+                        <ul>
+                            <li>Selected: {this.renderDebug()}</li>
+                            <li>finded: {this.renderFinded()}</li>
+                            <li>QTY: {this.state.qtySelected}</li>
+                            <li>
+                                Waiting: {this.state.waiting && ` true`}
+                                {!this.state.waiting && ` false`}
+                            </li>
+                        </ul>
                     </div>
-                </div>
-                <div className="component-game-xxx" sytle={{ display: 'flex' }}>
-                    {this.props.images.map((img, key) => {
-                        return (
-                            <img
-                                key={key}
-                                src={getUrlImageFlickr(img)}
-                                sytle={{
-                                    width: '25%',
-                                    height: '333px'
-                                }}
-                            />
-                        );
-                    })}
                 </div>
             </div>
         );
