@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getImagesByTag } from '../actions/';
-import { shuffleArray, getUrlImageFlickr } from '../util';
+import { shuffleArray, getUrlImageFlickr, mergeImagesWithCards } from '../util';
 import Card from '../components/Card';
 
 class Game extends Component {
     constructor(props) {
         super(props);
-
-        const cards = shuffleArray([...this.props.cards, ...this.props.cards]); //duplicate
 
         this.state = {
             images: [],
@@ -16,13 +14,21 @@ class Game extends Component {
             qtySelected: 0,
             indexSelected: [],
             finded: [],
-            cards
+            cards: []
         };
     }
 
     componentDidMount = () => {
         this.props.getImagesByTag();
     };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.images.length > 0) {
+            const _cards = mergeImagesWithCards(nextProps.quantity, nextProps.images);
+            const cards = shuffleArray([..._cards, ..._cards]); //duplicate
+            this.setState({ cards });
+        }
+    }
 
     clean() {
         setTimeout(() => {
@@ -61,17 +67,16 @@ class Game extends Component {
             const finded = this.state.finded.indexOf(index) > -1;
 
             //configuration for change background every time
-            let backgroundImage = 'none';
-            if (this.props.images && this.props.images.length > 0) {
-                const inxImage = Math.floor(Math.random() * this.props.images.length);
-                backgroundImage = getUrlImageFlickr(this.props.images[inxImage]);
-            }
+            // let backgroundImage = 'none';
+            // if (this.props.images && this.props.images.length > 0) {
+            //     const inxImage = Math.floor(Math.random() * this.props.images.length);
+            //     backgroundImage = getUrlImageFlickr(this.props.images[inxImage]);
+            // }
             return (
                 <Card
                     key={index}
                     flipped={flipped}
                     finded={finded}
-                    backgroundImage={backgroundImage}
                     {...card}
                     onClick={() => this.handleCardClick(index)}
                 />
@@ -88,7 +93,8 @@ class Game extends Component {
     }
 
     render() {
-        console.log(this.props);
+        if (!this.props.images || !(this.props.images.length > 0)) return <p>loading...</p>;
+
         if (this.state.waiting === true) {
             this.clean();
         }
@@ -119,13 +125,8 @@ class Game extends Component {
 
 Game.defaultProps = {
     delay: 1500,
-    cards: [
-        { background: 'red', title: 'Puka', id: 1 },
-        { background: 'green', title: 'Mora', id: 2 },
-        { background: 'yellow', title: 'Rapunzel', id: 3 },
-        { background: 'violet', title: 'Elsa', id: 4 },
-        { background: 'blue', title: 'Ana', id: 5 }
-    ]
+    quantity: 5,
+    cards: []
 };
 
 const mapStateToProps = (state) => {
