@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "http://centrodph.github.io/react-cards",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "jquery": "^3.5.1",
     "jsonp": "^0.2.1",
     "node-sass-chokidar": "^1.5.0",
